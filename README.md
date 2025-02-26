@@ -12,7 +12,7 @@ pipenv shell
 pip install -r requirements.txt
 ```
 
-## Stremlicloud
+## Stremlitcloud
 ```
 https://jarqin-dashboard-analysis.streamlit.app/
 ```
