@@ -38,7 +38,7 @@ if graph_choice == "Bagaimana performa peminjaman sepeda pada setiap musim di ta
 elif graph_choice == "Bagaimana pola peminjaman sepeda pada pagi, siang, sore, dan malam?":
     time_summary = merged_df.groupby("hour_group")["cnt"].sum().reset_index()
     fig, ax = plt.subplots(figsize=(8, 5))
-    sns.barplot(data=time_summary, x="hour_group", y="cnt", palette="coolwarm", ax=ax)
+    sns.barplot(data=time_summary, x="hour_group", y="cnt", color="royalblue", ax=ax)
     ax.set_xlabel("Waktu dalam Sehari")
     ax.set_ylabel("Jumlah Peminjaman")
     ax.set_title("Pola Peminjaman Berdasarkan Waktu")
@@ -46,26 +46,22 @@ elif graph_choice == "Bagaimana pola peminjaman sepeda pada pagi, siang, sore, d
 
 elif graph_choice == "Pada hari apa peminjaman sepeda paling sedikit?":
     weekday_summary = merged_df.groupby("weekday")[["cnt"]].sum().reset_index()
-
     sns.set_style("ticks")
-
     day_labels = {
         0: "Senin", 1: "Selasa", 2: "Rabu", 3: "Kamis",
         4: "Jumat", 5: "Sabtu", 6: "Minggu"
     }
 
     weekday_summary["weekday"] = weekday_summary["weekday"].map(day_labels)
-
     weekday_summary_sorted = weekday_summary.sort_values("cnt")
+    base_color = "#D3D3D3"  
+    highlight_color = "#72BCD4"  
+    colors = [highlight_color if i == weekday_summary_sorted["cnt"].min() else base_color for i in weekday_summary_sorted["cnt"]]
+    fig, ax = plt.subplots(figsize=(10, 6))
+    sns.barplot(data=weekday_summary_sorted, y="weekday", x="cnt", hue="weekday", palette=colors, ax=ax)
 
-    colors = sns.color_palette("coolwarm", len(weekday_summary_sorted))
-
-    fig, ax = plt.subplots(figsize=(8, 5))
-    sns.barplot(data=weekday_summary_sorted, y="weekday", x="cnt", hue="weekday", palette="viridis", ax=ax)
-
-    plt.xlabel("Total Peminjaman Sepeda", fontsize=12)
-    plt.ylabel("Hari", fontsize=12)
-    plt.title("Peminjaman Sepeda Berdasarkan Hari", fontsize=14)
-
-    plt.xticks(fontsize=10)
+    ax.set_xlabel("Total Peminjaman Sepeda", fontsize=12)
+    ax.set_ylabel("Hari", fontsize=12)
+    ax.set_title("Peminjaman Sepeda Berdasarkan Hari", fontsize=14)
+    ax.tick_params(axis="x", labelsize=10)
     st.pyplot(fig)
