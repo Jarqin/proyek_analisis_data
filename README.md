@@ -6,7 +6,7 @@
 !streamlit run dashboard.py & npx localtunnel --port 8501
 ```
 
-## Using Shell/Terminal
+## Using VsCode
 ```
 git clone https://github.com/Jarqin/proyek_analisis_data.git
 cd repository-name
